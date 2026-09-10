@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="質問と組織情報から成果体系図を作成するローカル対応エディタ">
+  <title>成果体系図エディタ</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="data.js"></script>
+  <script defer src="model.js"></script>
+  <script defer src="routing.js"></script>
+  <script defer src="diagram.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="app-header"><div class="brand"><span class="brand-icon" aria-hidden="true">▤</span><h1>成果体系図エディタ</h1><span class="badge">ローカル版</span></div><span class="header-note">入力内容はこの画面を閉じると消えます</span></header>
+  <main class="workspace">
+    <aside class="input-pane" aria-label="図の入力">
+      <div class="pane-heading"><h2>案件・組織の入力</h2><button id="show-all" class="text-button">すべて表示</button></div>
+      <nav id="sections" class="section-tabs" aria-label="入力セクション"></nav>
+      <div id="questions" class="questions"></div>
+      <footer class="section-footer"><button id="previous">前へ</button><span id="section-progress"></span><button id="next" class="primary">次へ →</button></footer>
+    </aside>
+    <section class="preview-pane" aria-label="成果体系図プレビュー">
+      <div class="preview-toolbar"><h2>プレビュー</h2><div class="toolbar-actions"><button id="reset">図をリセット</button><label>出力倍率 <select id="export-scale"><option value="1" selected>等倍</option><option value="2">2倍</option></select></label><button id="export" class="primary">PNGとして保存</button></div></div>
+      <div id="connection-bar" class="connection-bar" hidden><span id="connection-status" role="status"></span><button id="cancel-connection">キャンセル</button></div>
+      <div id="diagram-stage" class="diagram-stage"><div id="diagram" class="paper"></div></div>
+      <div class="legend"><span><i class="swatch member"></i>会員・G</span><span><i class="line black"></i>施工体制</span><span><i class="line red dashed"></i>見積</span><span><i class="line red"></i>支払</span><span><i class="line blue dashed"></i>営業</span></div>
+      <details class="edge-panel" open><summary>関係線 <span id="edge-count"></span></summary><div id="edge-list"></div></details>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <dialog id="edge-dialog" aria-labelledby="edge-dialog-title"><form id="edge-form"><div class="dialog-heading"><h2 id="edge-dialog-title">関係線を追加</h2><button type="button" id="close-dialog" aria-label="閉じる">×</button></div><p id="edge-endpoints"></p><fieldset class="edge-type-field"><legend>1. 線種</legend><div id="edge-types" class="edge-type-options"></div></fieldset><label class="field">2. ラベル（空欄可）<select id="edge-label"></select></label><label id="edge-extra-field" class="field" hidden><span id="edge-extra-title"></span><input id="edge-extra" maxlength="120"></label><label id="reverse-edge-field" class="reverse-edge-field" hidden><input id="reverse-edge" type="checkbox"> 矢印を逆にする</label><p id="edge-error" class="error" role="alert"></p><div class="dialog-footer"><button type="button" id="delete-edge" class="danger" hidden>線を削除</button><button type="button" id="cancel-dialog">キャンセル</button><button id="save-edge" type="submit" class="primary">線を追加</button></div></form></dialog>
+  <dialog id="reset-dialog" aria-labelledby="reset-title"><h2 id="reset-title">図をリセットしますか？</h2><p class="reset-warning">案件情報、質問への回答、組織、すべての関係線を初期化します。この操作は元に戻せません。</p><div class="dialog-footer"><button id="cancel-reset" autofocus>キャンセル</button><button id="confirm-reset" class="danger">すべて初期化する</button></div></dialog>
+</body>
+</html>
+
